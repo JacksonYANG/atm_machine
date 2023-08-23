@@ -1,4 +1,4 @@
-package Model;
+package com.jacksonyang.atm_machine.Model;
 
 
 import jakarta.persistence.*;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 //用户信息表
 @Entity
-public class Acct {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,4 +1,4 @@
-package Model;
+package com.jacksonyang.atm_machine.Model;
 
 //交易流水表
 

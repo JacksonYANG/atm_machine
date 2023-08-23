@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <style>
+        /* 样式用于将页面内容垂直居中 */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        /* 其他样式 */
+    </style>
+</head>
+<body>
+<h1>欢迎光临欢欢丹姐银行</h1>
+<h1>请进行登陆</h1>
+
+<form id="loginForm">
+    <label for="userName">用户名:</label>
+    <input type="text" id="userName" required><br>
+    <label for="password">密码:</label>
+    <input type="password" id="password" required><br>
+    <button type="submit">登陆</button>
+</form>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append('userName', document.getElementById("userName").value);
+        formData.append('password', document.getElementById("password").value);
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('登陆失败');
+                }
+            })
+            .then(data => {
+                alert('登陆成功，即将跳转到账户页面'); // 登录成功的处理
+                // 可以进行页面跳转等操作
+            })
+            .catch(error => {
+                alert('登陆失败，请重新登陆'); // 登录失败的处理
+            });
+    });
+</script>
+</body>
+</html>

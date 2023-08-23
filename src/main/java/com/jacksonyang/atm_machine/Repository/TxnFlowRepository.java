@@ -1,6 +1,6 @@
-package Repository;
+package com.jacksonyang.atm_machine.Repository;
 
-import Model.TxnFlow;
+import com.jacksonyang.atm_machine.Model.TxnFlow;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
