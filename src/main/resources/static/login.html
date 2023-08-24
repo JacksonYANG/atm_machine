@@ -12,23 +12,81 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-color: rgba(0, 0, 0, 0.1); /* 使用半透明黑色背景 */
+            background-color: #f0f0f0; /* 浅灰色背景 */
+            background-image: url("background_bank.jpg");
+            background-size: auto 200px; /* 图片按比例放大以填充整个背景区域 */
+            background-repeat: no-repeat;
+            background-position: top center;
         }
-        /* 其他样式 */
-    </style>
+        /* 共用按钮样式 */
+        .register-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        /* 自定义按钮样式 */
+        .login-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        /* 布局容器样式 */
+        .button-container {
+            display: flex; /* 使用 flex 布局 */
+            justify-content: space-between; /* 两个按钮之间平均分布空间 */
+            align-items: center; /* 垂直居中对齐 */
+            margin-top: 20px; /* 为了与登录表单保持一定距离 */
+        }
+
+        .form-input {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .register-button:hover {
+            background-color: #2980b9;
+        }
+
+        .login-button:hover {
+            background-color: #2980b9;
+        }
+        </style>
 </head>
 <body>
-<h1>欢迎光临欢欢丹姐银行</h1>
+<h1>欢迎光临北京银行</h1>
 <h1>请进行登陆</h1>
 
 <form id="loginForm">
     <label for="userName">用户名:</label>
-    <input type="text" id="userName" required><br>
+    <input type="text" id="userName" class="form-input" required><br>
     <label for="password">密码:</label>
-    <input type="password" id="password" required><br>
-    <button type="submit">登陆</button>
+    <input type="password" id="password" class="form-input" required><br>
+    <button type="submit" class="login-button">登陆</button>
+    <button type="button" class="register-button" id="registerButton">注册</button>
 </form>
 
 <script>
+    document.getElementById("registerButton").addEventListener("click", function() {
+        window.location.href = "/register";
+    });
+
     document.getElementById("loginForm").addEventListener("submit", function(event) {
         event.preventDefault();
 

@@ -23,6 +23,7 @@ public class UserService implements UserDetailsService {
     private TxnFlowRepository txnFlowRepository;
 
 
+    //登陆
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByUserName(username);

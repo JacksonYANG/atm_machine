@@ -19,6 +19,12 @@ public class ATMController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //根目录重定向
+    @GetMapping("/")
+    public String redirect(){
+        return "redirect:/login";
+    }
+
     //获取余额
     @GetMapping("/getBalance")
     public ResponseEntity<Map<String, Double>> checkBalance(@RequestParam String userName){
@@ -28,7 +34,13 @@ public class ATMController {
         return ResponseEntity.ok(response);
     }
 
-    //注册
+    //展示注册页面
+    @GetMapping("/register")
+    public String showRegister(){
+        return "register";
+    }
+
+    //完成注册
     @PostMapping("/register")
     public String registerUser(@RequestParam String userName, @RequestParam String password, @RequestParam String phone, @RequestParam String name){
         userService.register(userName, password, phone, name);
@@ -49,15 +61,19 @@ public class ATMController {
 
     //存款
     @PostMapping("/deposit")
-    public ResponseEntity<String> deposit(@RequestParam String userName, @RequestParam double amount){
-        userService.deposit(userName, amount);
+    public ResponseEntity<String> deposit(@RequestBody Map<String, Object> requestData){
+        String username = (String) requestData.get("userName");
+        double amount = (double) requestData.get("amount");
+        userService.deposit(username, amount);
         return ResponseEntity.ok("存款成功");
     }
 
     //取款
     @PostMapping("/withdraw")
-    public ResponseEntity<String> withdraw(@RequestParam String userName, @RequestParam double amount){
-        if (userService.withDraw(userName, amount)){
+    public ResponseEntity<String> withdraw(@RequestBody Map<String, Object> requestData){
+        String username = (String) requestData.get("userName");
+        double amount = (double) requestData.get("amount");
+        if (userService.withDraw(username, amount)){
             return ResponseEntity.ok("取款成功");
         } else return ResponseEntity.badRequest().body("余额不足，取款失败！");
     }

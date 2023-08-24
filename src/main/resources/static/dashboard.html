@@ -4,6 +4,64 @@
   <meta charset="UTF-8">
   <title>主页面</title>
   <style>
+    .dashboard {
+      background-color: #f0f0f0;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* 标题样式 */
+    .dashboard h2 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .transaction-section {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    /* 页面样式 */
+    .transaction-section {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    /* 输入框样式 */
+    .transaction-input {
+      width: 70%; /* 调整输入框宽度 */
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px 0 0 5px;
+      font-size: 16px;
+      margin-right: 10px; /* 添加右侧外边距 */
+    }
+
+    /* 按钮样式 */
+    .transaction-button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      display: inline-block; /* 让按钮水平排列 */
+      transition: background-color 0.3s ease-in-out;
+      margin-right: 10px;
+    }
+
+    .transaction-button:hover {
+      background-color: #2980b9;
+    }
+
     /* 样式用于将页面内容垂直居中 */
     body {
       display: flex;
@@ -12,24 +70,40 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-    }
+      background-color: rgba(0, 0, 0, 0.1); /* 使用半透明黑色背景 */
+      background-color: #f0f0f0; /* 浅灰色背景 */
+      background-image: url("background_bank.jpg");
+      background-size: auto 150px; /* 图片按比例放大以填充整个背景区域 */
+      background-repeat: no-repeat;
+      background-position: top center;}
+
+    /* 余额展示样式 */
+    .balance-display {
+      font-size: 18px;
+      color: #333;}
+
     /* 其他样式 */
   </style>
 </head>
 <body>
-<h1>欢欢丹姐银行欢迎您的光临</h1>
 <h1>欢迎尊贵的用户 <span id="userName"></span>!</h1>
 
-<p>Your balance: $<span id="balance">-</span></p>
-<button id="refreshBalance">刷新余额</button>
+<div class="dashboard">
+  <button id="refreshBalance" class="transaction-button">刷新余额</button>
+  <p>余额: <span id="balance" class="balance-display">-</span> ¥</p>
+</div>
 
 <h2>存款</h2>
-<input type="number" id="depositAmount" placeholder="请输入您的存款金额"><br>
-<button id="depositButton">存款</button>
+<div class="transaction-section">
+  <input type="number" id="depositAmount" class="transaction-input" placeholder="请输入您的存款金额"><br>
+  <button id="depositButton" class="transaction-button">存款</button>
+</div>
 
 <h2>取款</h2>
-<input type="number" id="withdrawAmount" placeholder="请输入您的取款金额"><br>
-<button id="withdrawButton">取款</button>
+<div class="transaction-section">
+  <input type="number" id="withdrawAmount" class="transaction-input" placeholder="请输入您的取款金额"><br>
+  <button id="withdrawButton" class="transaction-button">取款</button>
+</div>
 
 <script>
   // Fetch balance and update UI
@@ -52,7 +126,7 @@
     refreshBalance();
   });
 
-  // Deposit button click event
+  // 存款
   document.getElementById("depositButton").addEventListener("click", function() {
     const depositAmount = parseFloat(document.getElementById("depositAmount").value);
     fetch('/deposit', {
@@ -60,16 +134,16 @@
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ amount: depositAmount })
+      body: JSON.stringify({ username: username, amount: depositAmount})
     })
             .then(response => response.json())
             .then(data => {
               alert(data.message);
-              fetchBalance();
+              refreshBalance();
             });
   });
 
-  // Withdraw button click event
+  // 取款
   document.getElementById("withdrawButton").addEventListener("click", function() {
     const withdrawAmount = parseFloat(document.getElementById("withdrawAmount").value);
     fetch('/withdraw', {
@@ -77,12 +151,12 @@
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ amount: withdrawAmount })
+      body: JSON.stringify({ username:username, amount: withdrawAmount })
     })
             .then(response => response.json())
             .then(data => {
               alert(data.message);
-              fetchBalance();
+              refreshBalance();
             });
   });
 
