@@ -11,9 +11,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -35,15 +40,9 @@ public class SecurityConfig {
                         .requestMatchers("/", "/register", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .httpBasic(withDefaults())
                 .build();
     }
 
-    //校验
-    @Bean
-    AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception{
-        return (AuthenticationManager) httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userService)
-                .passwordEncoder(bCryptPasswordEncoder());
-    }
 
 }

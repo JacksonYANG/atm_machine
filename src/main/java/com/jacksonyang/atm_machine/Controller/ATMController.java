@@ -22,7 +22,7 @@ public class ATMController {
     //根目录重定向
     @GetMapping("/")
     public String redirect(){
-        return "redirect:/login";
+        return "login";
     }
 
     //获取余额
