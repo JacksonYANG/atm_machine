@@ -37,10 +37,9 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/register", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/register", "/css/**", "/js/**", "/login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults())
                 .build();
     }
 

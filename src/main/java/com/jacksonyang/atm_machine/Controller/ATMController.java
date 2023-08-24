@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@Controller
 public class ATMController {
     @Autowired
     private UserService userService;
@@ -42,20 +43,20 @@ public class ATMController {
 
     //完成注册
     @PostMapping("/register")
-    public String registerUser(@RequestParam String userName, @RequestParam String password, @RequestParam String phone, @RequestParam String name){
-        userService.register(userName, password, phone, name);
+    public String registerUser(@RequestBody Map<String, Object> requestData){
+        userService.register((String) requestData.get("userName"), (String) requestData.get("password"), (String) requestData.get("phone"), (String) requestData.get("name"));
         ResponseEntity.ok("注册成功！");
-        return "redirect:/login.html";
+        return "redirect:/login";
     }
 
     //登陆
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestParam String userName, @RequestParam String password){
-        UserDetails user = userService.loadUserByUsername(userName);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return ResponseEntity.ok(userName);
+    public String loginUser(@RequestBody Map<String, Object> requestData){
+        UserDetails user = userService.loadUserByUsername((String) requestData.get("userName"));
+        if (user != null && passwordEncoder.matches((String) requestData.get("password"), user.getPassword())) {
+            return "dashboard";
         } else {
-            return ResponseEntity.badRequest().body("登陆失败");
+            return "redirect:/login";
         }
     }
 
