@@ -98,7 +98,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({username: userName, password:password})
+            body: JSON.stringify({userName: userName, password:password})
         })
             .then(response => {
                 if (response.ok) {
@@ -109,10 +109,11 @@
             })
             .then(data => {
                 alert('登陆成功，即将跳转到账户页面'); // 登录成功的处理
-                // 可以进行页面跳转等操作
+                window.location.href = "/dashboard";
             })
             .catch(error => {
                 alert('登陆失败，请重新登陆'); // 登录失败的处理
+                window.location.href = "/login";
             });
     });
 </script>

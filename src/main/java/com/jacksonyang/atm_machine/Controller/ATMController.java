@@ -26,6 +26,17 @@ public class ATMController {
         return "login";
     }
 
+    //展示注册页面
+    @GetMapping("/register")
+    public String showRegister(){
+        return "register";
+    }
+
+    //登陆成功，进入主页面
+    @GetMapping("/dashboard")
+    public String dashboard(){
+        return "/dashboard";
+    }
     //获取余额
     @GetMapping("/getBalance")
     public ResponseEntity<Map<String, Double>> checkBalance(@RequestParam String userName){
@@ -33,12 +44,6 @@ public class ATMController {
         Map<String, Double> response = new HashMap<>();
         response.put("balance", balance);
         return ResponseEntity.ok(response);
-    }
-
-    //展示注册页面
-    @GetMapping("/register")
-    public String showRegister(){
-        return "register";
     }
 
     //完成注册
@@ -52,10 +57,17 @@ public class ATMController {
     //登陆
     @PostMapping("/login")
     public String loginUser(@RequestBody Map<String, Object> requestData){
-        UserDetails user = userService.loadUserByUsername((String) requestData.get("userName"));
-        if (user != null && passwordEncoder.matches((String) requestData.get("password"), user.getPassword())) {
+        String username = (String) requestData.get("userName");
+        String password = (String) requestData.get("password");
+        System.out.print(username+","+password);
+        UserDetails user = userService.loadUserByUsername(username);
+        System.out.print(user.getUsername()+user.getPassword());
+        System.out.print(passwordEncoder.matches(password, user.getPassword()));
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            System.out.print("登陆成功");
             return "dashboard";
         } else {
+            System.out.print("登陆失败");
             return "redirect:/login";
         }
     }
